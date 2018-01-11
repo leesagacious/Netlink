@@ -20,6 +20,8 @@ static int __init spring_netlinkport_init(void)
         goto alloc_area_fail;
     
     /*
+        spring_netlink Agreement registration 
+    */
     sock_register(&spring_netlink_ops);
 
 alloc_area_fail:
