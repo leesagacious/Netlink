@@ -20,7 +20,13 @@ static int __init spring_netlinkport_init(void)
         goto alloc_area_fail;
     
     /*
-        spring_netlink Agreement registration 
+        func : spring_netlink Agreement registration 
+        
+        PF_LEENETLINK : 27
+        
+        The underlying sock implementation : 
+        -> :
+        rcu_assign_pointer(net_families[PF_LEENETLINK], ops);
     */
     sock_register(&spring_netlink_ops);
 
