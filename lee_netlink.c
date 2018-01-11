@@ -19,6 +19,9 @@ static int __init spring_netlinkport_init(void)
     if (!spring_area) 
         goto alloc_area_fail;
     
+    /*
+    sock_register(&spring_netlink_ops);
+
 alloc_area_fail:
     panic("alloc spring_netlink_area has failure\n");
 }    
