@@ -33,3 +33,5 @@ static int __init spring_netlinkport_init(void)
 alloc_area_fail:
     panic("alloc spring_netlink_area has failure\n");
 }    
+
+core_initcall(spring_netlinkport_init);
