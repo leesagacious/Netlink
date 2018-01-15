@@ -1,6 +1,21 @@
 
 struct leenetlink_area * spring_area;
 
+static lee_netlink_create(struct net *net, struct socket *sock, int protocol)
+{
+    int err; 
+    
+    if (!spring_area.has_register)  {
+        err = -ENODEV;
+        goto lee_netlink_create_failure;
+    }       
+    
+    return 0;
+    
+lee_netlink_create_failure:
+    return err;
+}  
+
 
 static const struct proto_ops spring_netlink_ops = {
     .family  = PF_LEENETLINK,
