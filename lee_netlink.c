@@ -1,21 +1,11 @@
 
 struct leenetlink_area * spring_area;
 
-static lee_netlink_create(struct net *net, struct socket *sock, int protocol)
-{
-    int err; 
-    
-    if (!spring_area.has_register)  {
-        err = -ENODEV;
-        goto lee_netlink_create_failure;
-    }       
-    
-    return 0;
-    
-lee_netlink_create_failure:
-    return err;
-}  
-
+static struct proto lee_netlink_proto = {
+	.name	  = "NETLINK",
+	.owner	  = THIS_MODULE,
+	.obj_size = sizeof(struct netlink_sock),
+};
 
 static const struct proto_ops spring_netlink_ops = {
     .family  = PF_LEENETLINK,
@@ -24,6 +14,38 @@ static const struct proto_ops spring_netlink_ops = {
     .bind    = leenetlink_bind,
     .connect = leenetlink_connect,
 };
+
+static lee_netlink_create(struct net *net, struct socket *sock, int protocol)
+{
+    int err; 
+    /*
+        He is the protagonist
+        It's too important ！
+    */
+    struct sock *sk;
+    
+    if (!spring_area.has_register)  {
+        err = -ENODEV;
+        goto lee_netlink_create_failure;
+    }       
+    
+    /*
+        user-land api calls the socket API will eventually call the specific agreement of the corresponding function
+        here !
+    */
+    sock->ops = &spring_netlink_ops;
+    
+    sk = sk_alloc(net, PF_LEENETLINK, GFP_KERNEL, &lee_netlink_proto);
+	if (!sk)
+		return -ENOMEM;
+    
+    return 0;
+    
+lee_netlink_create_failure:
+    return err;
+}  
+
+
 
 
 static int __init spring_netlinkport_init(void)
