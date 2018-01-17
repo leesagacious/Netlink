@@ -6,7 +6,9 @@ static struct proto lee_netlink_proto = {
 	.owner	  = THIS_MODULE,
 	.obj_size = sizeof(struct netlink_sock),
 };
-
+/*
+    func : Copy the buffer data to decide whether it is unicast or multicast
+*/
 static int leenetlink_sendmsg(struct socket *sock, struct msghdr *msg, size_t len)
 {
 	
