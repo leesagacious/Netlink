@@ -7,12 +7,18 @@ static struct proto lee_netlink_proto = {
 	.obj_size = sizeof(struct netlink_sock),
 };
 
+static int leenetlink_sendmsg(struct socket *sock, struct msghdr *msg, size_t len)
+{
+	
+}	
+
 static const struct proto_ops spring_netlink_ops = {
     .family  = PF_LEENETLINK,
     .owner   = THIS_MODULE,
     .release = leenetlink_relase,
     .bind    = leenetlink_bind,
     .connect = leenetlink_connect,
+    .sendmsg = leenetlink_sendmsg,		
 };
 
 static lee_netlink_create(struct net *net, struct socket *sock, int protocol)
