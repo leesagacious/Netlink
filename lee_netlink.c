@@ -11,6 +11,10 @@ static struct proto lee_netlink_proto = {
 */
 static int leenetlink_sendmsg(struct socket *sock, struct msghdr *msg, size_t len)
 {
+	unsigned int has_broadcast;
+	unsigned int has_bound;
+	struct sk_buff *skb;
+	
 	
 }	
 
