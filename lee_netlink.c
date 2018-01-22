@@ -36,7 +36,7 @@ static int leenetlink_sendmsg(struct socket *sock, struct msghdr *msg, size_t le
 	addr_lee = (struct sockaddr_nl *)msg->msg_name;
 	
 	if (addr_lee->nl_family != AF_NETLINK) {
-		err = FAMILY_ERROR;
+		ret = FAMILY_ERROR;
 		goto family_error;
 	}	
 	/*
