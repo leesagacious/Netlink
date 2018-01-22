@@ -6,13 +6,29 @@ static struct proto lee_netlink_proto = {
 	.owner	  = THIS_MODULE,
 	.obj_size = sizeof(struct netlink_sock),
 };
+
+static int is_ple(unsigned int detection_tmp)
+{	
+	do {
+		if (detection_tmp & 1) 
+		    goto checkedout;
+		
+		detection_tmp >>= 1;
+		
+	} while (detection_tmp)
+		
+	return 	LEE_NETLINK_MULTI;
+	
+checkedout:
+	return LEE_NETLINK_SUCCESS;
+}	
 /*
     func : Copy the buffer data to decide whether it is unicast or multicast
 */
 static int leenetlink_sendmsg(struct socket *sock, struct msghdr *msg, size_t len)
 {
 	int ret;	
-	unsigned int has_broadcast;
+	unsigned int has_ple;
 	unsigned int has_bound;
 	struct sk_buff *skb;
 	struct sockaddr_nl * addr_lee;
@@ -23,6 +39,12 @@ static int leenetlink_sendmsg(struct socket *sock, struct msghdr *msg, size_t le
 		err = FAMILY_ERROR;
 		goto family_error;
 	}	
+	/*
+		1 : not use ffs().
+		2 : Imitation soft interrupt handling
+	*/
+	has_ple = is_ple(addr_lee->nl_groups);
+	
 family_error:
 	return ret;
 }	
