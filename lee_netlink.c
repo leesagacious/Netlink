@@ -79,8 +79,8 @@ static lee_netlink_create(struct net *net, struct socket *sock, int protocol)
     sock->ops = &spring_netlink_ops;
     
     sk = sk_alloc(net, PF_LEENETLINK, GFP_KERNEL, &lee_netlink_proto);
-	if (!sk)
-		return -ENOMEM;
+    if (!sk)
+       return -ENOMEM;
     
     return 0;
     
