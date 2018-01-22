@@ -17,7 +17,7 @@ static int is_ple(unsigned int detection_tmp)
 		
 	} while (detection_tmp)
 		
-	return 	LEE_NETLINK_MULTI;
+	return 	LEE_NETLINK_PLE;
 	
 checkedout:
 	return LEE_NETLINK_SUCCESS;
