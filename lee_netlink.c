@@ -11,11 +11,20 @@ static struct proto lee_netlink_proto = {
 */
 static int leenetlink_sendmsg(struct socket *sock, struct msghdr *msg, size_t len)
 {
+	int ret;	
 	unsigned int has_broadcast;
 	unsigned int has_bound;
 	struct sk_buff *skb;
+	struct sockaddr_nl * addr_lee;
 	
+	addr_lee = (struct sockaddr_nl *)msg->msg_name;
 	
+	if (addr_lee->nl_family != AF_NETLINK) {
+		err = FAMILY_ERROR;
+		goto family_error;
+	}	
+family_error:
+	return ret;
 }	
 
 static const struct proto_ops spring_netlink_ops = {
