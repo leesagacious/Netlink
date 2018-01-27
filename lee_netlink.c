@@ -7,6 +7,23 @@ static struct proto lee_netlink_proto = {
 	.obj_size = sizeof(struct netlink_sock),
 };
 
+struct sock * lee_netlink_kernel_create(unsigned int netlinkindex, struct netlink_kernel_cfg * leecfg)
+{
+	unsigned long groups = 32;
+	
+	if (!spring_area) 
+	    painic("spring_area must be not NULL\n");	
+	
+	if (netlinkindex < 0 || netlinkindex > 32)
+	    goto kernel_create_failed;
+	
+	if (leecfg->groups < 32)
+	    groups = 32; 	
+	
+kernel_create_failed:
+	return NULL;
+}	
+
 static int is_ple(unsigned int detection_tmp)
 {	
 	do {
