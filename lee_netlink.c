@@ -120,6 +120,12 @@ static lee_netlink_create(struct net *net, struct socket *sock, int protocol)
     sk = sk_alloc(net, PF_LEENETLINK, GFP_KERNEL, &lee_netlink_proto);
     if (!sk)
        return -ENOMEM;
+    /* 
+       Use only once, hard-coded here 
+       Very important !
+    */
+    sk->sk_rcvbuf = 32768;	
+	
     
     return 0;
     
