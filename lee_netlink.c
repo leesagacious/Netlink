@@ -7,6 +7,27 @@ static struct proto lee_netlink_proto = {
 	.obj_size = sizeof(struct netlink_sock),
 };
 
+int netlink_unicast( struct sock * sock, struct sk_buff *skb, unsigned int  portid)
+{
+	int ret;
+        struct sock * otsock;
+        unsigned long deleaytime;
+	
+	delaytime = sock->sk_sndtimeo;
+	
+	targetsock = via_otsock_adopt_portid(sock, portid);
+	if (!targetsock) {
+	    kfree_skb(skb);
+	    ret = -1;
+	    goto unicast_failed;	
+	}
+	
+	return 0;
+	
+unicast_failed:
+	return ret;
+}	
+
 struct sock * lee_netlink_kernel_create(unsigned int netlinkindex, struct netlink_kernel_cfg * leecfg)
 {
 	unsigned long groups = 32;
