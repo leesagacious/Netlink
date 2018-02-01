@@ -12,9 +12,10 @@ int netlink_unicast( struct sock * sock, struct sk_buff *skb, unsigned int  port
 	int ret;
         struct sock * otsock;
         unsigned long deleaytime;
-	
+	/* timeout */
 	delaytime = sock->sk_sndtimeo;
 	
+	/* The bottom does not use hashtable */
 	targetsock = via_otsock_adopt_portid(sock, portid);
 	if (!targetsock) {
 	    kfree_skb(skb);
