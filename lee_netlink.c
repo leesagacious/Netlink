@@ -10,8 +10,10 @@ static struct proto lee_netlink_proto = {
 int netlink_unicast( struct sock * sock, struct sk_buff *skb, unsigned int  portid)
 {
 	int ret;
+	int has_sleep;
+	unsigned long deleaytime;
         struct sock * otsock;
-        unsigned long deleaytime;
+	
 	/* timeout */
 	delaytime = sock->sk_sndtimeo;
 	
@@ -22,6 +24,17 @@ int netlink_unicast( struct sock * sock, struct sk_buff *skb, unsigned int  port
 	    ret = -1;
 	    goto unicast_failed;	
 	}
+	
+	has_sleep = atomic_read(&targetsock->sk_rmem_alloc) - targetsock->sk_rcvbuf;
+	if (has_sleep >= 0) {
+		wait_queue_head_t taskwait = {
+			.private = cpu_rq(smp_processor_id())->curr;
+			.func    = default_wait_function,
+			.task_list = {NULL, NULL}
+		};
+	}
+	
+			
 	
 	return 0;
 	
