@@ -83,6 +83,12 @@ static int is_ple(unsigned int detection_tmp)
 checkedout:
 	return LEE_NETLINK_SUCCESS;
 }	
+
+static int leenetlink_recvmsg(struct socket * sock, struct msghdr *msg, size_t  len)
+{
+	
+}	
+
 /*
     func : Copy the buffer data to decide whether it is unicast or multicast
 */
@@ -116,7 +122,8 @@ static const struct proto_ops spring_netlink_ops = {
     .release = leenetlink_relase,
     .bind    = leenetlink_bind,
     .connect = leenetlink_connect,
-    .sendmsg = leenetlink_sendmsg,		
+    .sendmsg = leenetlink_sendmsg,	 
+    .recvmsg = leenetlink_recvmsg,   	 
 };
 
 static lee_netlink_create(struct net *net, struct socket *sock, int protocol)
