@@ -9,7 +9,7 @@ struct lee_sock {
 static struct proto lee_netlink_proto = {
 	.name	  = "NETLINK",
 	.owner	  = THIS_MODULE,
-	.obj_size = sizeof(struct netlink_sock),
+	.obj_size = sizeof(struct lee_sock),
 };
 
 int netlink_unicast( struct sock * sock, struct sk_buff *skb, unsigned int  portid)
