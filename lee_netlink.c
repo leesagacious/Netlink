@@ -1,6 +1,11 @@
 
 struct leenetlink_area * spring_area;
 
+struct lee_sock {
+	struct sock sock;
+	wait_queue_head_t	tar_halt;
+};
+
 static struct proto lee_netlink_proto = {
 	.name	  = "NETLINK",
 	.owner	  = THIS_MODULE,
@@ -27,11 +32,15 @@ int netlink_unicast( struct sock * sock, struct sk_buff *skb, unsigned int  port
 	
 	has_sleep = atomic_read(&targetsock->sk_rmem_alloc) - targetsock->sk_rcvbuf;
 	if (has_sleep >= 0) {
-		wait_queue_head_t taskwait = {
+		wait_queue_head_t taskhalt = {
 			.private = cpu_rq(smp_processor_id())->curr;
 			.func    = default_wait_function,
 			.task_list = {NULL, NULL}
 		};
+		
+		set_current_task(TASK_INTERRUPTIBLE);
+		tar_halt
+		add_wait_queue(&leesock->tar_halt, &taskhalt);
 	}
 	
 			
@@ -145,8 +154,6 @@ static lee_netlink_create(struct net *net, struct socket *sock, int protocol)
 lee_netlink_create_failure:
     return err;
 }  
-
-
 
 
 static int __init spring_netlinkport_init(void)
