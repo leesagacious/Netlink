@@ -32,14 +32,14 @@ int netlink_unicast( struct sock * sock, struct sk_buff *skb, unsigned int  port
 	
 	has_sleep = atomic_read(&targetsock->sk_rmem_alloc) - targetsock->sk_rcvbuf;
 	if (has_sleep >= 0) {
-		wait_queue_head_t taskhalt = {
+		wait_queue_t taskhalt = {
 			.private = cpu_rq(smp_processor_id())->curr;
 			.func    = default_wait_function,
 			.task_list = {NULL, NULL}
 		};
 		
 		set_current_task(TASK_INTERRUPTIBLE);
-		tar_halt
+		
 		add_wait_queue(&leesock->tar_halt, &taskhalt);
 	}
 	
@@ -127,6 +127,7 @@ static lee_netlink_create(struct net *net, struct socket *sock, int protocol)
         It's too important ！
     */
     struct sock *sk;
+    struct lee_sock * leesock;	
     
     if (!spring_area.has_register)  {
         err = -ENODEV;
@@ -147,6 +148,8 @@ static lee_netlink_create(struct net *net, struct socket *sock, int protocol)
        Very important !
     */
     sk->sk_rcvbuf = 32768;	
+	
+    init_waitqueue_head(&leesock->tar_halt);	
 	
     
     return 0;
