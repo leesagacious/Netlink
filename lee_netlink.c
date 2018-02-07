@@ -43,7 +43,9 @@ int netlink_unicast( struct sock * sock, struct sk_buff *skb, unsigned int  port
 		add_wait_queue(&leesock->tar_halt, &taskhalt);
 	}
 	
+	skb_queue_tail(&targetsock->sk_receive_queue, skb);
 			
+	targetsock->sk_data_ready(targetsock);
 	
 	return 0;
 	
