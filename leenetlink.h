@@ -5,7 +5,13 @@ enum LEE_NETLINK_ERROR {
     LEE_NETLINK_PLE     = -2,
 };
 
+struct listener {
+    struct list_head node;
+    unsigned long bitmap;
+};
+
 struct leenetlink_area {
     struct list_head   airing_list;
     unsigned int enroll;
+    struct listeners *monitor;
 };
