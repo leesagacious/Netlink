@@ -6,6 +6,15 @@ struct lee_sock {
 	wait_queue_head_t	tar_halt;
 };
 
+/* Protocol handler */
+static const struct net_proto_family spring_netlink_family_ops = {
+	.family = SPRING_NETLINK,
+	/*
+	    The user space socket() function will make the function get called
+	*/		
+	.create = spring_netlink_create,
+};
+
 static struct proto lee_netlink_proto = {
 	.name	  = "NETLINK",
 	.owner	  = THIS_MODULE,
