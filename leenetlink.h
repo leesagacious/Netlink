@@ -5,6 +5,10 @@ enum LEE_NETLINK_ERROR {
     LEE_NETLINK_PLE     = -2,
 };
 
+struct spring_netlink_sock {
+    unsigned int flags,
+};
+
 struct listener {
     struct list_head node;
     unsigned long bitmap;
