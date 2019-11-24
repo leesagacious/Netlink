@@ -21,6 +21,20 @@ static struct proto lee_netlink_proto = {
 	.obj_size = sizeof(struct lee_sock),
 };
 
+static int leenetlink_bind(struct socket *sock, struct sockaddr *addr, int addr_len)
+{
+	int err;
+	struct lee_sockaddr_nl *nladdr = (struct sockaddr_nl *)addr; 
+	
+	if (!nladdr->nl_groups) {
+		err = -EINVAL;
+		goto out;
+	}	
+
+out:
+	return err;
+}	
+
 int netlink_unicast( struct sock * sock, struct sk_buff *skb, unsigned int  portid)
 {
 	int ret;
