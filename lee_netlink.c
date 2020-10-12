@@ -89,6 +89,17 @@ struct sock * lee_netlink_kernel_create(unsigned int netlinkindex, struct netlin
 	if (leecfg->groups < 32)
 	    groups = 32; 	
 	
+	mutex_lock(&spring_area_lock);
+	/*
+		Does not support repeated registration
+	*/
+	if (spring_area[netlinkindex].has_registered) {
+		pr_err("This netlink protocol has been registered\n");
+		goto kernel_create_failed;
+	}
+	mutex_unlock(&spring_area_lock);
+	
+	
 kernel_create_failed:
 	return NULL;
 }	
