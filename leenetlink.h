@@ -18,4 +18,5 @@ struct leenetlink_area {
     struct list_head   airing_list;
     unsigned int enroll;
     struct listeners *monitor;
+    bool has_registered;
 };
