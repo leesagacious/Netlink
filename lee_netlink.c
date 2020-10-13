@@ -97,6 +97,9 @@ struct sock * lee_netlink_kernel_create(unsigned int netlinkindex, struct netlin
 		pr_err("This netlink protocol has been registered\n");
 		goto kernel_create_failed;
 	}
+
+	spring_area[netlinkindex].groups = groups;
+
 	mutex_unlock(&spring_area_lock);
 	
 	
