@@ -24,12 +24,17 @@ static struct proto lee_netlink_proto = {
 static int leenetlink_bind(struct socket *sock, struct sockaddr *addr, int addr_len)
 {
 	int err;
+	unsigned int groups;
 	struct lee_sockaddr_nl *nladdr = (struct sockaddr_nl *)addr; 
 	
 	if (!nladdr->nl_groups) {
 		err = -EINVAL;
 		goto out;
 	}	
+
+	groups = spring_area[sk->index].groups;
+	if (groups < 64)
+		groups &= (1UL << groups) - 1;
 
 out:
 	return err;
