@@ -33,8 +33,10 @@ static int leenetlink_bind(struct socket *sock, struct sockaddr *addr, int addr_
 	}
 
 	groups = spring_area[sk->index].groups;
-	if (groups < 64)
+	if (groups < 64) {
 		groups &= (1UL << groups) - 1;
+		list_add_tail(sock->sk, &spring_area[sk->index].multi_groups_list;
+	}
 
 out:
 	return err;
