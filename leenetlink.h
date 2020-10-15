@@ -22,3 +22,8 @@ struct leenetlink_area {
     bool has_registered;
     unsigned int groups;
 };
+
+struct lee_netlink_kernel_param {
+	unsigned int	groups;
+	bool is_kernel_netlink;
+};
