@@ -81,6 +81,19 @@ unicast_failed:
 	return ret;
 }
 
+static int user_kernel_create_netlink_sock(bool which, int protocol)
+{
+	struct sock *uk_sock;
+	struct spring_netlink_sock *sns;
+
+	uk_sock = kzalloc(sizeof(*uk_sock));
+	if (!uk_sock)
+		return -ENOMEM;
+	
+	sns = sns_of(uk_sock);
+	
+}
+
 struct sock * lee_netlink_kernel_create(unsigned int netlinkindex, struct netlink_kernel_cfg * leecfg)
 {
 	unsigned long groups = 32;
@@ -93,6 +106,8 @@ struct sock * lee_netlink_kernel_create(unsigned int netlinkindex, struct netlin
 
 	if (leecfg->groups < 32)
 		groups = 32;
+
+	
 
 	mutex_lock(&spring_area_lock);
 	if (spring_area[netlinkindex].has_registered) {
